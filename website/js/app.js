@@ -6,6 +6,7 @@ const PERSONA_COLORS = {
     student: 'var(--accent-blue)',
     'pro-se': 'var(--accent-yellow)',
     cle: 'var(--accent-green)',
+    'skill-developer': 'var(--accent-green)',
 };
 
 // DOM elements
@@ -17,6 +18,7 @@ let allData = null;
 let activeFilter = 'all';
 let skillsWithTraces = new Set();
 let repoUrl = '';
+let searchTerm = '';
 
 // Fetch inventory data
 async function loadInventory() {
@@ -38,6 +40,12 @@ async function loadInventory() {
         allData = { index: personas, inventories };
         repoUrl = index.repo_url || '';
         buildFilters();
+        setStat('stat-roles', personas.length);
+        setStat('stat-skills', inventories.reduce((n, inv) => n + inv.skills.length, 0));
+        document.getElementById('skill-search').addEventListener('input', (e) => {
+            searchTerm = e.target.value.trim().toLowerCase();
+            render();
+        });
 
         try {
             const tr = await fetch('traces/index.json');
@@ -46,6 +54,7 @@ async function loadInventory() {
                 for (const t of trData.traces || []) {
                     skillsWithTraces.add(t.skill);
                 }
+                setStat('stat-traces', (trData.traces || []).length);
             }
         } catch (_) { /* no traces yet — silently skip */ }
 
@@ -90,9 +99,10 @@ function makeFilterBtn(label, value) {
 function render() {
     personasContainer.innerHTML = '';
 
-    const visible = activeFilter === 'all'
+    const visible = (activeFilter === 'all'
         ? allData.inventories
-        : allData.inventories.filter((inv) => inv.group === activeFilter);
+        : allData.inventories.filter((inv) => inv.group === activeFilter)
+    ).map(applySearch).filter(Boolean);
 
     if (visible.length === 0) {
         personasContainer.innerHTML = '<p class="no-results">No skills found.</p>';
@@ -104,12 +114,27 @@ function render() {
     }
 }
 
+// Narrow a persona to the skills matching the search box. A persona whose own
+// label matches keeps all its skills; one with no match is dropped.
+function applySearch(inv) {
+    if (!searchTerm) return inv;
+    if ((inv.label || '').toLowerCase().includes(searchTerm)) return inv;
+    const skills = inv.skills.filter((s) =>
+        `${formatTitle(s.name)} ${s.description}`.toLowerCase().includes(searchTerm));
+    return skills.length ? { ...inv, skills, meta_skill: null } : null;
+}
+
 function renderPersona(inv) {
     const section = document.createElement('div');
     section.className = 'persona-section';
 
     const color = PERSONA_COLORS[inv.group] || 'var(--accent-green)';
     const label = inv.label || inv.group;
+
+    const heading = document.createElement('div');
+    heading.className = 'persona-heading';
+    heading.innerHTML = `<span class="persona-swatch" style="background-color: ${color}"></span><h3>${label}</h3>`;
+    section.appendChild(heading);
 
     // Meta skill callout — uses human-facing headline/pitch from group.yaml
     // (headline is the group `description`; pitch rides along in `design`).
@@ -177,7 +202,7 @@ function renderSkillCard(skill, personaLabel, color) {
             <span class="skill-category" style="background-color: ${color}">${label}</span>
             ${statusBadge}
         </div>
-        <h3 class="skill-title">${formatTitle(skill.name)}</h3>
+        <h3 class="skill-title">${skill.page_url ? `<a href="${skill.page_url}">${formatTitle(skill.name)}</a>` : formatTitle(skill.name)}</h3>
         <p class="skill-desc">${truncate(skill.description, 180)}</p>
         <a href="${skill.install_url}" class="download-btn" download>Download Skill (.skill)</a>
         <div class="card-links">
@@ -189,6 +214,11 @@ function renderSkillCard(skill, personaLabel, color) {
 }
 
 // Helpers
+function setStat(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+}
+
 function formatTitle(name) {
     return name
         .split('-')

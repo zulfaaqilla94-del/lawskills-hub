@@ -9,122 +9,86 @@
         <div class="container">
             <h1>Get Started</h1>
             <p class="install-subtitle">
-                Choose how you want to use the Legal Ed Skills Hub.
-                Each option gives you the same skills &mdash; pick the one that fits your workflow.
+                Pick where you use AI. Every option gives you the same skills.
             </p>
         </div>
     </section>
 
-    <!-- Tier 1: One-Click Install -->
     <section class="install-tier">
         <div class="container">
-            <span class="install-card-badge">RECOMMENDED</span>
-            <div class="install-cards">
-
-                <div class="install-card">
-                    <div class="install-card-header">
-                        <h2>ChatGPT</h2>
-                    </div>
-                    <p class="install-card-desc">
-                        Use our Custom GPT in ChatGPT. All skills stay up to date automatically &mdash;
-                        nothing to download or maintain.
-                    </p>
-                    <ul class="install-card-features">
-                        <li>Works with ChatGPT Plus, Team, or Enterprise</li>
-                        <li>Always has the latest skills</li>
-                        <li>No setup required</li>
-                    </ul>
-                    {% if custom_gpt_url %}
-                    <a href="{{ custom_gpt_url }}" class="btn btn-primary install-card-btn" target="_blank">
-                        Open Custom GPT &rarr;
-                    </a>
-                    {% else %}
-                    <span class="btn install-card-btn install-card-btn-soon">
-                        Coming Soon
-                    </span>
-                    {% endif %}
-                </div>
-
-                <div class="install-card">
-                    <div class="install-card-header">
-                        <h2>Claude Desktop</h2>
-                    </div>
-                    <p class="install-card-desc">
-                        Install a Desktop Extension for Claude. Runs locally via MCP &mdash;
-                        double-click to install, and you&rsquo;re ready.
-                    </p>
-                    <ul class="install-card-features">
-                        <li>Works with Claude Desktop (free or Pro)</li>
-                        <li>Lightweight local MCP server</li>
-                        <li>One-click install</li>
-                    </ul>
-                    <a href="{{ mcpb_download_url }}" class="btn btn-primary install-card-btn" download>
-                        Download Extension (.mcpb)
-                    </a>
-                </div>
-
+            <div class="install-tabs" role="tablist" aria-label="Where you use AI">
+                <button class="install-tab" role="tab" id="tab-claude" aria-controls="panel-claude" aria-selected="true">Claude Desktop</button>
+                <button class="install-tab" role="tab" id="tab-chatgpt" aria-controls="panel-chatgpt" aria-selected="false">ChatGPT</button>
+                <button class="install-tab" role="tab" id="tab-agent" aria-controls="panel-agent" aria-selected="false">Claude Code &amp; other agents</button>
+                <button class="install-tab" role="tab" id="tab-dev" aria-controls="panel-dev" aria-selected="false">Developers</button>
             </div>
-        </div>
-    </section>
 
-    <!-- Tier 2: Install Skills Directly -->
-    <section class="install-tier install-tier-alt">
-        <div class="container">
-            <h2 class="install-tier-heading">Install Skills Directly</h2>
-            <p class="install-tier-desc">
-                If your agent supports
-                <a href="https://agentskills.org/" target="_blank">Agent Skills</a>,
-                you can download a meta skill for your role. It bundles
-                all specialized skills for that persona and routes tasks automatically.
-            </p>
-            <p class="install-tier-desc">
-                Or grab individual skills from the hub if you only need specific capabilities.
-            </p>
-            <a href="{{ root or './' }}#personas" class="btn btn-secondary">Browse Skills by Role &rarr;</a>
-        </div>
-    </section>
+            <div class="install-panel" role="tabpanel" id="panel-claude" aria-labelledby="tab-claude">
+                <h2>Claude Desktop</h2>
+                <p>A one-click Desktop Extension. It runs a small local server that loads skills from this site, so new skills arrive without reinstalling.</p>
+                <ol class="install-steps">
+                    <li>Download the extension file below.</li>
+                    <li>Double-click the <code>.mcpb</code> file, and Claude Desktop opens it.</li>
+                    <li>Choose <strong>Install</strong>, then start a new chat and describe your task.</li>
+                </ol>
+                <a href="{{ mcpb_download_url }}" class="btn btn-primary" download>Download Extension (.mcpb)</a>
+            </div>
 
-    <!-- Tier 3: For Developers -->
-    <section class="install-tier">
-        <div class="container">
-            <h2 class="install-tier-heading">For Developers</h2>
-            <p class="install-tier-desc">
-                Want to wire things up yourself? The Skills Hub is built on open standards
-                and everything is available as source.
-            </p>
-            <div class="install-dev-options">
-                <div class="install-dev-option">
-                    <h3>Use the API</h3>
-                    <p>
-                        Point any agent at our static JSON API. An OpenAPI spec is available
-                        for tool-calling agents and Custom GPT actions.
-                    </p>
-                    <a href="{{ base_url }}actions/openapi.yaml" class="install-dev-link" target="_blank">
-                        View OpenAPI Spec &rarr;
-                    </a>
-                </div>
-                <div class="install-dev-option">
-                    <h3>Run the MCP Server</h3>
-                    <p>
-                        The Claude extension is a zero-dependency Node.js MCP server.
-                        Download the <code>.mcpb</code>, unzip it, and point any MCP client
-                        at <code>node&nbsp;server/index.js</code>.
-                    </p>
-                    <a href="{{ repo_url }}tree/main/templates/mcpb" class="install-dev-link" target="_blank">
-                        View Source &rarr;
-                    </a>
-                </div>
-                <div class="install-dev-option">
-                    <h3>Browse the Source</h3>
-                    <p>
-                        All skills, build scripts, and tests are on GitHub.
-                        Fork the repo to create your own hub.
-                    </p>
-                    <a href="{{ repo_url }}" class="install-dev-link" target="_blank">
-                        View on GitHub &rarr;
-                    </a>
+            <div class="install-panel" role="tabpanel" id="panel-chatgpt" aria-labelledby="tab-chatgpt" hidden>
+                <h2>ChatGPT</h2>
+                <p>A Custom GPT that loads skills on demand. There is nothing to download or update. Using it requires a ChatGPT plan with access to GPTs.</p>
+                {% if custom_gpt_url %}
+                <a href="{{ custom_gpt_url }}" class="btn btn-primary" target="_blank">Open Custom GPT &rarr;</a>
+                {% else %}
+                <span class="btn install-card-btn-soon">Coming Soon</span>
+                {% endif %}
+            </div>
+
+            <div class="install-panel" role="tabpanel" id="panel-agent" aria-labelledby="tab-agent" hidden>
+                <h2>Claude Code &amp; other agents</h2>
+                <p>Any agent that supports <a href="https://agentskills.org/" target="_blank"><u>Agent Skills</u></a> can use these files. A <code>.skill</code> file is a zip archive containing a folder with a <code>SKILL.md</code>.</p>
+                <ol class="install-steps">
+                    <li>Download the meta skill for your role from the <a href="{{ root or './' }}#personas"><u>catalog</u></a>. It bundles all of that role&rsquo;s skills.</li>
+                    <li>Unzip it into your agent&rsquo;s skills folder. For Claude Code:
+                        <div class="code-block"><pre><code>mkdir -p ~/.claude/skills
+unzip ~/Downloads/student-meta.skill -d ~/.claude/skills</code></pre></div>
+                    </li>
+                    <li>Start a new session and describe your task. For other agents, check their documentation for the skills folder location.</li>
+                </ol>
+            </div>
+
+            <div class="install-panel" role="tabpanel" id="panel-dev" aria-labelledby="tab-dev" hidden>
+                <h2>Developers</h2>
+                <p>Build the whole site locally. You need <a href="https://docs.astral.sh/uv/" target="_blank"><u>uv</u></a> and git.</p>
+                <ol class="install-steps">
+                    <li>Get the source:
+                        <div class="code-block"><pre><code>git clone {{ repo_url }}
+cd lawskills-hub</code></pre></div>
+                    </li>
+                    <li>Build it:
+                        <div class="code-block"><pre><code>uvx --from "git+https://github.com/harvard-lil/skills-hub#subdirectory=packages/skills-hub-builder" skills-hub-builder build</code></pre></div>
+                    </li>
+                    <li>Preview it at <code>http://localhost:8000</code>:
+                        <div class="code-block"><pre><code>python3 -m http.server -d _site</code></pre></div>
+                    </li>
+                </ol>
+                <div class="install-dev-options">
+                    <div class="install-dev-option">
+                        <h3>Use the API</h3>
+                        <p>Point any tool-calling agent or Custom GPT action at the static JSON API.</p>
+                        <a href="{{ base_url }}actions/openapi.yaml" class="install-dev-link" target="_blank">View OpenAPI Spec &rarr;</a>
+                    </div>
+                    <div class="install-dev-option">
+                        <h3>Run the MCP Server</h3>
+                        <p>Unzip the <code>.mcpb</code> and point any MCP client at <code>node&nbsp;server/index.js</code>.</p>
+                        <a href="{{ repo_url }}tree/main/templates/mcpb" class="install-dev-link" target="_blank">View Source &rarr;</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="js/install.js"></script>
 {% endblock %}
