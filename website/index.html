@@ -4,31 +4,79 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Agent Skills for<br>Legal Education.</h1>
-            <p class="hero-text">
-                Install a meta skill for your role. It stays active in the background &mdash;
-                routing your tasks to specialized skills and recommending new ones from a live inventory.
-                You describe what you need; the skills handle the rest.
-            </p>
-            <div class="hero-actions">
-                <a href="install.html" class="btn btn-primary">Get Started &rarr;</a>
-                <a href="#personas" class="btn btn-secondary">Browse by Role &darr;</a>
-                <a href="{{ repo_url }}/blob/main/CONTRIBUTING.md" class="btn btn-secondary" target="_blank">Contribute &rarr;</a>
+            <div class="hero-grid">
+                <div>
+                    <p class="eyebrow">Open catalog &middot; Harvard Law School Library Innovation Lab</p>
+                    <h1>AI that teaches the law, not just answers it.</h1>
+                    <p class="hero-text">
+                        Install one meta skill for your role. It stays active in the background,
+                        routing each task to a specialized skill built on sound pedagogy.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="install.html" class="btn btn-primary">Get Started &rarr;</a>
+                        <a href="#personas" class="btn btn-secondary">Browse Skills &darr;</a>
+                    </div>
+                </div>
+                <aside class="index-card" aria-label="The rule each role follows">
+                    <p class="index-card-title">One firm rule per role</p>
+                    <ul>
+                        <li><strong>Instructor</strong>Doesn&rsquo;t produce student-facing work</li>
+                        <li><strong>Student</strong>Never writes what you would submit</li>
+                        <li><strong>Pro Se</strong>Never gives legal advice; orients and connects</li>
+                        <li><strong>CLE</strong>Builds your capabilities instead of doing the work</li>
+                        <li><strong>Skill Developer</strong>Honors your expertise; handles the format</li>
+                    </ul>
+                </aside>
+            </div>
+            <div class="stats">
+                <div class="stat"><b id="stat-skills">&ndash;</b><span>Skills</span></div>
+                <div class="stat"><b id="stat-roles">&ndash;</b><span>Roles</span></div>
+                <div class="stat"><b id="stat-traces">&ndash;</b><span>Scored test runs</span></div>
             </div>
         </div>
     </section>
 
+    <!-- How It Works -->
+    <section class="how-section">
+        <div class="container">
+            <p class="eyebrow">How it works</p>
+            <ol class="how-steps">
+                <li><h3>Install once</h3><p>Add the meta skill for your role to ChatGPT, Claude, or another compatible agent.</p></li>
+                <li><h3>Describe your task</h3><p>Ask the way you normally would: &ldquo;check if I understand this case.&rdquo; No skill names to remember.</p></li>
+                <li><h3>Get guided help</h3><p>The right skill takes over, asking questions and coaching within the limits set for your role.</p></li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Personas Section -->
+    <section id="personas" class="personas-section">
+        <span id="groups"></span>
+        <div class="container">
+            <div class="section-header">
+                <h2>Find a skill</h2>
+            </div>
+            <div class="catalog-tools">
+                <input id="skill-search" class="skill-search" type="search" placeholder="Search, e.g. syllabus, exam, email" aria-label="Search skills">
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">ALL</button>
+                </div>
+            </div>
+
+            <div id="personas-container">
+                <p class="loading-msg">Loading skills inventory&hellip;</p>
+            </div>
+        </div>
+    </section>
     <!-- Training Videos Section -->
     <section id="training" class="training-section">
         <div class="container">
             <div class="section-header">
-                <h2>TRAINING_MODULES</h2>
-                <span class="section-line"></span>
+                <h2>Learn the basics</h2>
             </div>
             <div class="video-grid">
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/cbcmbubK5Qc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe loading="lazy" width="560" height="315" src="https://www.youtube-nocookie.com/embed/cbcmbubK5Qc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                     <div class="video-info">
                         <h3>How to Install A Skill</h3>
@@ -37,7 +85,7 @@
                 </div>
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/deKrsnaz7JE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe loading="lazy" width="560" height="315" src="https://www.youtube-nocookie.com/embed/deKrsnaz7JE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                     <div class="video-info">
                         <h3>What Is A Skill?</h3>
@@ -48,18 +96,18 @@
         </div>
     </section>
 
-    <!-- Personas Section -->
-    <section id="personas" class="personas-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>SKILLS_BY_ROLE</h2>
-                <div class="filters">
-                    <button class="filter-btn active" data-filter="all">ALL</button>
-                </div>
+    <!-- Evidence and contributing -->
+    <section>
+        <div class="container evidence">
+            <div>
+                <h2>See the evidence</h2>
+                <p>Skills are tested against scripted scenarios and scored by an LLM judge, alongside a baseline with no skill at all.</p>
+                <a href="traces/" class="btn btn-secondary">View Traces &rarr;</a>
             </div>
-
-            <div id="personas-container">
-                <p class="loading-msg">Loading skills inventory&hellip;</p>
+            <div>
+                <h2>Write a skill</h2>
+                <p>A skill is a markdown file, closer to a lesson plan than to code. Educators and practitioners can contribute directly.</p>
+                <a href="{{ repo_url }}blob/main/CONTRIBUTING.md" class="btn btn-secondary" target="_blank">Contribute &rarr;</a>
             </div>
         </div>
     </section>

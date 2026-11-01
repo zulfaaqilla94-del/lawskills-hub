@@ -9,7 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ root }}css/styles.css">
@@ -25,9 +25,9 @@
                 <span class="divider">/</span>
                 <a href="{{ root or './' }}" class="site-title">AGENT SKILLS HUB</a>
             </div>
-            <nav>
-                <a href="{{ root }}#personas">Skills</a>
-                <a href="{{ root }}#training">Training</a>
+            <nav aria-label="Main">
+                <a href="{{ root or './' }}#personas">Skills</a>
+                <a href="{{ root or './' }}#training">Training</a>
                 <a href="{{ root }}traces/">Traces</a>
                 <a href="{{ repo_url }}" target="_blank">GitHub</a>
                 <a href="{{ root }}install.html" class="nav-cta">Get Started</a>
