@@ -41,7 +41,7 @@ async function loadInventory() {
         repoUrl = index.repo_url || '';
         buildFilters();
         setStat('stat-roles', personas.length);
-        setStat('stat-skills', inventories.reduce((n, inv) => n + inv.skills.length, 0));
+        setStat('stat-skills', inventories.reduce((n, inv) => n + inv.skills.length + (inv.meta_skill ? 1 : 0), 0));
         document.getElementById('skill-search').addEventListener('input', (e) => {
             searchTerm = e.target.value.trim().toLowerCase();
             render();
@@ -146,6 +146,8 @@ function renderPersona(inv) {
         const metaName = inv.meta_skill.name;
         const metaTracesLink = skillsWithTraces.has(metaName)
             ? `<a href="traces/#skill=${metaName}" class="traces-link">view traces</a>` : '';
+        const metaPageLink = inv.meta_skill.page_url
+            ? `<a href="${inv.meta_skill.page_url}" class="traces-link">view details</a>` : '';
         const metaEditLink = repoUrl && inv.meta_skill.source_path
             ? `<a href="${repoUrl}tree/main/${inv.meta_skill.source_path}" class="edit-link" target="_blank">edit</a>` : '';
 
@@ -163,7 +165,7 @@ function renderPersona(inv) {
                     </div>
                     ${objective ? `<p class="meta-objective">${objective}</p>` : ''}
                     <p class="meta-desc">${pitch}</p>
-                    <div class="meta-links">${metaTracesLink}${metaEditLink}</div>
+                    <div class="meta-links">${metaPageLink}${metaTracesLink}${metaEditLink}</div>
                 </div>
                 <a href="${inv.meta_skill.install_url}" class="btn btn-primary meta-install-btn" download>
                     Install Meta Skill
